@@ -2,6 +2,17 @@ from Google import Create_Service
 from flask import Flask, render_template, request, json
 app = Flask(__name__)
 
+
+parent_folder = ['Admin', '2020']
+sub_folder_admin = ['11. Director Details']
+sub_folder_tahun = ['01. Januari']
+sub_folder_bulan = ['24. PP23']
+parent_id_company = []
+parent_id_admin = []
+parent_id_tahun = []
+parent_id_bulan = []
+all_id_folder = []
+
 @app.route("/")
 def main():
     return render_template('index.html')
@@ -14,32 +25,23 @@ def showPT():
 def addPT():
     # read the posted values from the UI
     global _name
+    global drive_service
     _name = request.form['inputName']
     if _name :
-       
-        return _name
-        
+        CLIENT_SECRET_FILE = 'credentials.json'
+        API_NAME = 'drive'
+        API_VERSION = 'v3'
+        SCOPES = ['https://www.googleapis.com/auth/drive']
+        drive_service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+        create_company_folder(_name)
+        create_parent_folder(parent_folder, parent_id_company[0])
+        create_sub_folder_admin(sub_folder_admin, parent_id_admin[0])
+        create_sub_folder_tahun(sub_folder_tahun, parent_id_tahun[0])
+        create_folder_inside_each_month(sub_folder_bulan, parent_id_bulan)
+        create_permission(all_id_folder)
     else:
         return json.dumps({'html':'<span>Enter the required fields</span>'})
 
-if __name__ == "__main__":
-    app.run(debug=True)
-
-CLIENT_SECRET_FILE = 'credentials.json'
-API_NAME = 'drive'
-API_VERSION = 'v3'
-SCOPES = ['https://www.googleapis.com/auth/drive']
-drive_service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
-
-parent_folder = ['Admin', '2020']
-sub_folder_admin = ['11. Director Details']
-sub_folder_tahun = ['01. Januari']
-sub_folder_bulan = ['24. PP23']
-parent_id_company = []
-parent_id_admin = []
-parent_id_tahun = []
-parent_id_bulan = []
-all_id_folder = []
 def create_company_folder(company_name):
     file_metadata = {
         'name': company_name,
@@ -91,31 +93,38 @@ def create_folder_inside_each_month(sub_folder_bulan, parent_id):
             }
             file = drive_service.files().create(body=file_metadata).execute()
     return print("Succes Create Sub Folder Bulan")
-
-create_company_folder(_name)
-create_parent_folder(parent_folder, parent_id_company[0])
-create_sub_folder_admin(sub_folder_admin, parent_id_admin[0])
-create_sub_folder_tahun(sub_folder_tahun, parent_id_tahun[0])
-create_folder_inside_each_month(sub_folder_bulan, parent_id_bulan)
-
-file_id = all_id_folder[0]
 def callback(request_id, response, exception):
     if exception:
         # Handle error
         print(exception)
     else:
         print("Permission Id: %s" % response.get('id'))
-batch = drive_service.new_batch_http_request(callback=callback)
-user_permission = {
-    'type': 'user',
-    'role': 'writer',
-    'emailAddress': 'tias1508@gmail.com',
-}
 
-batch.add(drive_service.permissions().create(
-        fileId=file_id,
-        body=user_permission,
-        fields='id',
-))
+def create_permission(all_id_folder):
+    file_id = all_id_folder[0]
 
-batch.execute()
+    batch = drive_service.new_batch_http_request(callback=callback)
+    user_permission = {
+        'type': 'user',
+        'role': 'writer',
+        'emailAddress': 'tias1508@gmail.com',
+    }
+
+    batch.add(drive_service.permissions().create(
+            fileId=file_id,
+            body=user_permission,
+            fields='id',
+    ))
+
+    batch.execute()
+    return print("Success Create Permission")
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
+
+
+
+
+
