@@ -1,47 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Python Flask Bucket List App</title>
- 
-    
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
- 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-    <link href="../static/css/signup.css" rel="stylesheet">
-    <script src="../static/js/jquery-1.11.2.js"></script>
-    <script src="../static/js/signUp.js"></script>
-    
-  </head>
- 
-  <body>
- 
-    <div class="container">
-      <div class="header">
-        <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" ><a href="main">Home</a></li>
-            <li role="presentation"><a href="#">Sign In</a></li>
-            <li role="presentation" class="active"><a href="#">Sign Up</a></li>
-          </ul>
-        </nav>
-        <h3 class="text-muted">Python Flask App</h3>
-      </div>
- 
-      <div class="jumbotron">
-        <h1>Bucket List App</h1>
-        <form class="form-signin">
-        <label for="inputName" class="sr-only">Name</label>
-        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Name" required autofocus>
-        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button">Sign up</button>
-      </form>
-      </div>
- 
-       
- 
-      <footer class="footer">
-        <p>&copy; Company 2015</p>
-      </footer>
- 
+​
+<head>
+  <title>Python Flask Bucket List App</title>
+​
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="../static/css/signup.css" rel="stylesheet">
+  <script src="../static/js/jquery-1.11.2.js"></script>
+  <script src="../static/js/signUp.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
+</head>
+​
+<body>
+​
+  <div class="container">
+    <div class="header">
+      <nav>
+        <ul class="nav nav-pills pull-right">
+        </ul>
+      </nav>
+      <h1 class="text-muted">Pevita Robot</h1>
     </div>
-  </body>
+    
+    
+      <form action="{{ url_for('addPT') }}" method="POST">
+      <div class="form-group col-md-4">
+          <label for="inputName" class="sr-only">Company Name</label>
+​
+          <input type="name" name="inputName" id="inputName" style="margin-top: 10px;" class="form-control"
+            placeholder="Enter the company name" required autofocus>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="exampleFormControlSelect1">Select Company categories</label>
+        <select class="form-control" name="categories" id="exampleFormControlSelect1">
+          <option value="5e7c0e2750896663c5a86ba3">Creative-Service</option> 
+          <option value="5c5807a8aed1271c0a3af2d5">food-beverages</option>
+          <option value="5fb5e43f8a078f7a8a7f6426">logistics</option>
+          <option value="5c58088a4148fb5594f2feb9">offboard-clients</option>
+          <option value="5cf60768db0e7c451c7d6d10">payroll-x-hreasily</option>
+          <option value="5c5808c968859060f6ef3e78">retail</option>
+          <option value="5c4b1a172d58e668d64b1d91">technology</option>
+          <option value="5e3edb72335b1d51127517bc">trading</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block col-md-6"  type="button">Submit</button>
+        </div>
+      </form>
+    
+​
+​
+    <footer class="footer">
+​
+    </footer>
+​
+  </div>
+</body>
+​
 </html>
